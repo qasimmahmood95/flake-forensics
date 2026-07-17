@@ -1,0 +1,1068 @@
+{
+  "config": {
+    "configFile": "/home/runner/work/webshop/webshop/playwright.config.ts",
+    "rootDir": "/home/runner/work/webshop/webshop/tests/e2e",
+    "metadata": {
+      "commit": "f3a3983c450dc6ec23c81837f77d9441c1bc2893",
+      "ciRunId": "gha-9003",
+      "timestamp": "2026-05-01T21:00:00.000Z"
+    },
+    "workers": 4
+  },
+  "suites": [
+    {
+      "title": "cart.spec.ts",
+      "file": "cart.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "checkout",
+          "file": "cart.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "applies discount code before payment",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 3726,
+                      "error": {
+                        "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[data-test=\"apply-discount\"]')\n  -   locator resolved to <button disabled [data-test=\"apply-discount\"]>…</button>",
+                        "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\n    at applyDiscount (/home/runner/work/webshop/webshop/tests/e2e/cart.spec.ts:42:19)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:324:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[data-test=\"apply-discount\"]')\n  -   locator resolved to <button disabled [data-test=\"apply-discount\"]>…</button>",
+                          "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\n    at applyDiscount (/home/runner/work/webshop/webshop/tests/e2e/cart.spec.ts:42:19)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:324:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 2371,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-01T21:00:20.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "flaky"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "shows empty-cart message",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 2101,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "updates line-item quantity",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 949,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 110,
+              "column": 3
+            },
+            {
+              "title": "calculates shipping estimate",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 967,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 99,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "login",
+          "file": "auth.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "rejects expired session token",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 5683,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:16)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:324:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:16)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:324:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 4382,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:128:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:128:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-01T21:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 4579,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:9)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:380:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:9)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:380:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-01T21:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "logs in with valid credentials",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 521,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "shows validation for empty form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 1067,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 24,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "orders.spec.ts",
+      "file": "orders.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "orders",
+          "file": "orders.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "lists recent orders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 3118,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "orders.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "shows order detail",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 1093,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "orders.spec.ts",
+              "line": 21,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "profile.spec.ts",
+      "file": "profile.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "profile",
+          "file": "profile.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "updates display name",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 3801,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "profile.spec.ts",
+              "line": 79,
+              "column": 3
+            },
+            {
+              "title": "uploads avatar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 2592,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "profile.spec.ts",
+              "line": 52,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "inventory.spec.ts",
+      "file": "inventory.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "inventory",
+          "file": "inventory.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "shows stock level",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 3499,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "inventory.spec.ts",
+              "line": 120,
+              "column": 3
+            },
+            {
+              "title": "filters by warehouse",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 2863,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "inventory.spec.ts",
+              "line": 69,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wishlist.spec.ts",
+      "file": "wishlist.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "wishlist",
+          "file": "wishlist.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "adds item to wishlist",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 4447,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "wishlist.spec.ts",
+              "line": 29,
+              "column": 3
+            },
+            {
+              "title": "removes item from wishlist",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 1900,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "wishlist.spec.ts",
+              "line": 88,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "search.spec.ts",
+      "file": "search.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "search",
+          "file": "search.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "filters results by tag",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 956,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 78,
+              "column": 3
+            },
+            {
+              "title": "returns results for exact match",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 5216,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "paginates long result lists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 965,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 31,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "home.spec.ts",
+      "file": "home.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "home",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders hero banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 5563,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "shows featured products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 2161,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 87,
+              "column": 3
+            },
+            {
+              "title": "navigates to category page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 1887,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 90,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "product.spec.ts",
+      "file": "product.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "product page",
+          "file": "product.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders image gallery",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 433,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "shows related products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 4444,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 42,
+              "column": 3
+            },
+            {
+              "title": "validates review form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 1201,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 80,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "footer.spec.ts",
+      "file": "footer.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "footer",
+          "file": "footer.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders newsletter signup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 1299,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "footer.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "links to policy pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 957,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-01T21:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "footer.spec.ts",
+              "line": 14,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-01T21:00:00.000Z",
+    "duration": 320483,
+    "expected": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "seed": 1592590340,
+  "runCount": 50,
+  "scenarios": {
+    "genuineFlake": "[chromium] cart.spec.ts › checkout › applies discount code before payment",
+    "consistentFailure": "[chromium] auth.spec.ts › login › rejects expired session token",
+    "environmentOutage": {
+      "runs": [
+        "run-031",
+        "run-032",
+        "run-033",
+        "run-034",
+        "run-035"
+      ],
+      "testsAffected": 8
+    },
+    "improvingTest": {
+      "testId": "[chromium] search.spec.ts › search › filters results by tag",
+      "fixedAtRun": "run-026",
+      "fixCommit": "2d1d9ba1375e942d8b03060cff7bb5418f1bd358"
+    }
+  }
+}

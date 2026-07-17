@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Verify committed fixtures match the seeded generator
+        run: pnpm fixtures:check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run demo analysis on the fixture set
+        run: pnpm demo
+
+      - name: Upload demo analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-analysis
+          path: demo/

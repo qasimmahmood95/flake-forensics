@@ -1,0 +1,3 @@
+# Force LF everywhere: fixtures:check compares committed fixtures byte-for-byte
+# against the seeded generator output, which always emits LF.
+* text=auto eol=lf

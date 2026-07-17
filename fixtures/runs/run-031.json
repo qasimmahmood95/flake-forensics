@@ -1,0 +1,1460 @@
+{
+  "config": {
+    "configFile": "/home/runner/work/webshop/webshop/playwright.config.ts",
+    "rootDir": "/home/runner/work/webshop/webshop/tests/e2e",
+    "metadata": {
+      "commit": "7c6c9bc9725fec74eedb3a3a663a3f9915b545a6",
+      "ciRunId": "gha-9030",
+      "timestamp": "2026-05-08T15:00:00.000Z"
+    },
+    "workers": 4
+  },
+  "suites": [
+    {
+      "title": "cart.spec.ts",
+      "file": "cart.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "checkout",
+          "file": "cart.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "applies discount code before payment",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 952,
+                      "error": {
+                        "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[data-test=\"apply-discount\"]')\n  -   locator resolved to <button disabled [data-test=\"apply-discount\"]>…</button>",
+                        "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\n    at applyDiscount (/home/runner/work/webshop/webshop/tests/e2e/cart.spec.ts:42:39)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:370:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[data-test=\"apply-discount\"]')\n  -   locator resolved to <button disabled [data-test=\"apply-discount\"]>…</button>",
+                          "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\n    at applyDiscount (/home/runner/work/webshop/webshop/tests/e2e/cart.spec.ts:42:39)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:370:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 2217,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "flaky"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "shows empty-cart message",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 1912,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 103,
+              "column": 3
+            },
+            {
+              "title": "updates line-item quantity",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 4685,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 44,
+              "column": 3
+            },
+            {
+              "title": "calculates shipping estimate",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 2416,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "cart.spec.ts",
+              "line": 37,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "login",
+          "file": "auth.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "rejects expired session token",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 2877,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:36)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:331:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:36)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:331:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 5419,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:18)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:361:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:18)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:361:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 2,
+                      "status": "failed",
+                      "duration": 1652,
+                      "error": {
+                        "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                        "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:11)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:322:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+                          "stack": "Error: expect(received).toBe(expected) // Object.is equality\n    at expectRejected (/home/runner/work/webshop/webshop/tests/e2e/auth.spec.ts:88:11)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:322:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 64,
+              "column": 3
+            },
+            {
+              "title": "logs in with valid credentials",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 3751,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 11,
+              "column": 3
+            },
+            {
+              "title": "shows validation for empty form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 2510,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "auth.spec.ts",
+              "line": 107,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "orders.spec.ts",
+      "file": "orders.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "orders",
+          "file": "orders.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "lists recent orders",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 489,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45249",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45249\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:7)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:246:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45249",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45249\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:7)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:246:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 2,
+                      "status": "failed",
+                      "duration": 2707,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:43954",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:43954\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:347:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:43954",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:43954\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:347:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 2359,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45246",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45246\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:12)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:374:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45246",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45246\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:12)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:374:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "orders.spec.ts",
+              "line": 62,
+              "column": 3
+            },
+            {
+              "title": "shows order detail",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 4111,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41900",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41900\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:38)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:126:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41900",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41900\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:38)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:126:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 5935,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:46475",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:46475\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:14)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:283:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:46475",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:46475\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:14)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:283:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 5328,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49332",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49332\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:8)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:218:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49332",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49332\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:8)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:218:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "orders.spec.ts",
+              "line": 97,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "profile.spec.ts",
+      "file": "profile.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "profile",
+          "file": "profile.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "updates display name",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 1264,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:31053",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:31053\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:6)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:358:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:31053",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:31053\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:6)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:358:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 1,
+                      "status": "failed",
+                      "duration": 1389,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41584",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41584\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:28)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:100:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41584",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41584\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:28)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:100:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 2919,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41597",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41597\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:400:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41597",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41597\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:400:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "profile.spec.ts",
+              "line": 56,
+              "column": 3
+            },
+            {
+              "title": "uploads avatar",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 4922,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47911",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47911\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:135:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47911",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47911\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:35)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:135:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 3830,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:44015",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:44015\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:212:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:44015",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:44015\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:212:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 1111,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49736",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49736\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:14)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:148:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49736",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49736\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:14)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:148:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "profile.spec.ts",
+              "line": 42,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "inventory.spec.ts",
+      "file": "inventory.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "inventory",
+          "file": "inventory.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "shows stock level",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "failed",
+                      "duration": 2186,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36544",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36544\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:8)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:312:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36544",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36544\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:8)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:312:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 3324,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45203",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45203\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:25)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:303:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45203",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45203\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:25)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:303:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 1317,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36929",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36929\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:40)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:288:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36929",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:36929\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:40)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:288:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "inventory.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "filters by warehouse",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 4478,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:32455",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:32455\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:5)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:233:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:32455",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:32455\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:5)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:233:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 2,
+                      "status": "failed",
+                      "duration": 1374,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41289",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41289\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:18)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:317:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41289",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:41289\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:18)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:317:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 4284,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45834",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45834\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:342:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45834",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45834\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:30)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:342:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "inventory.spec.ts",
+              "line": 8,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "wishlist.spec.ts",
+      "file": "wishlist.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "wishlist",
+          "file": "wishlist.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "adds item to wishlist",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 2043,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45761",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45761\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:34)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:305:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45761",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:45761\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:34)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:305:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 2595,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:48801",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:48801\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:19)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:367:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:48801",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:48801\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:19)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:367:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 5370,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49959",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49959\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:12)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:201:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49959",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:49959\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:12)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:201:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "wishlist.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "removes item from wishlist",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 618,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:35211",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:35211\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:36)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:387:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:35211",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:35211\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:36)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:387:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 3,
+                      "status": "failed",
+                      "duration": 5105,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:33355",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:33355\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:20)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:341:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:33355",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:33355\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:20)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:341:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-05-08T15:00:20.000Z",
+                      "attachments": []
+                    },
+                    {
+                      "workerIndex": 0,
+                      "status": "failed",
+                      "duration": 1114,
+                      "error": {
+                        "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47675",
+                        "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47675\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:37)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:235:11"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47675",
+                          "stack": "Error: apiRequest failed: connect ECONNREFUSED 127.0.0.1:47675\n    at apiRequest (/home/runner/work/webshop/webshop/tests/e2e/helpers/api.ts:17:37)\n    at /home/runner/work/webshop/webshop/node_modules/@playwright/test/lib/worker/workerMain.js:235:11"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2026-05-08T15:00:40.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "file": "wishlist.spec.ts",
+              "line": 98,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "search.spec.ts",
+      "file": "search.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "search",
+          "file": "search.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "filters results by tag",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 5853,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 91,
+              "column": 3
+            },
+            {
+              "title": "returns results for exact match",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 5598,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 19,
+              "column": 3
+            },
+            {
+              "title": "paginates long result lists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 4732,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "search.spec.ts",
+              "line": 49,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "home.spec.ts",
+      "file": "home.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "home",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders hero banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 3612,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 106,
+              "column": 3
+            },
+            {
+              "title": "shows featured products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 4297,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "navigates to category page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 1732,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "home.spec.ts",
+              "line": 109,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "product.spec.ts",
+      "file": "product.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "product page",
+          "file": "product.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders image gallery",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 613,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 76,
+              "column": 3
+            },
+            {
+              "title": "shows related products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 3472,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "validates review form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 3979,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "product.spec.ts",
+              "line": 55,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "footer.spec.ts",
+      "file": "footer.spec.ts",
+      "line": 0,
+      "column": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "footer",
+          "file": "footer.spec.ts",
+          "line": 3,
+          "column": 1,
+          "specs": [
+            {
+              "title": "renders newsletter signup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 600,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "footer.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "links to policy pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 1258,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-08T15:00:00.000Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "file": "footer.spec.ts",
+              "line": 75,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-08T15:00:00.000Z",
+    "duration": 188163,
+    "expected": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "flake-forensics",
+  "version": "0.1.0",
+  "description": "Statistically honest flake analysis for Playwright JSON reports across CI runs",
+  "license": "MIT",
+  "author": "Qasim",
+  "type": "module",
+  "bin": {
+    "flake-forensics": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "fixtures": "tsx scripts/generate-fixtures.ts",
+    "fixtures:check": "tsx scripts/generate-fixtures.ts --check",
+    "demo": "tsx src/index.ts analyze fixtures/runs --json demo/report.json --html demo/report.html --quarantine demo/quarantine.md"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "fflate": "^0.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "eslint": "^9.17.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.18.0",
+    "vitest": "^2.1.0"
+  }
+}
