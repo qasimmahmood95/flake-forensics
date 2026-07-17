@@ -162,12 +162,18 @@ describe('loadRuns', () => {
   });
 
   it('caps suite recursion depth instead of overflowing the stack', async () => {
-    let nested: object = { title: 'deep.spec.ts', specs: [] };
-    for (let i = 0; i < 5000; i++) nested = { title: 's', suites: [nested] };
+    // Depth 1000 is far above the ingest cap (100) but shallow enough that
+    // building/parsing the JSON itself is safe on every runner's stack.
+    let nested: object = {
+      title: 'deep.spec.ts',
+      specs: [{ title: 'buried', tests: [{ results: [{ status: 'passed', retry: 0 }] }] }],
+    };
+    for (let i = 0; i < 1000; i++) nested = { title: 's', suites: [nested] };
     const file = path.join(dir, 'deep.json');
     await writeFile(file, JSON.stringify({ suites: [nested] }));
     const { runs } = await loadRuns([file]);
-    expect(runs).toHaveLength(1); // parsed, no crash, nothing salvaged below the cap
+    expect(runs).toHaveLength(1); // no crash
+    expect(runs[0]?.tests).toHaveLength(0); // nothing salvaged below the cap
   });
 
   it('maps interrupted (cancelled run) to skipped, not failed', async () => {
