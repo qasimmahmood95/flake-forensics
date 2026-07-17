@@ -1,17 +1,27 @@
 #!/usr/bin/env node
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { Command } from 'commander';
+import { Command, InvalidArgumentError } from 'commander';
 import { resolveInputs } from './fsglob.js';
 import { loadRuns } from './ingest.js';
 import { analyze } from './analyze.js';
-import type { Thresholds } from './classify.js';
+import { validateThresholds, type Thresholds } from './classify.js';
 import { renderTable, renderSummary, type SortKey } from './report/table.js';
 import { renderQuarantineMd } from './report/quarantineMd.js';
 import { renderHtml } from './report/html.js';
 import { fetchArtifacts } from './fetch.js';
 
 const program = new Command();
+
+function intOption(min: number) {
+  return (value: string): number => {
+    const n = Number(value);
+    if (!Number.isInteger(n) || n < min) {
+      throw new InvalidArgumentError(`must be an integer >= ${min}`);
+    }
+    return n;
+  };
+}
 
 program
   .name('flake-forensics')
@@ -26,8 +36,8 @@ program
   .option('--html <file>', 'write a single-file static HTML report')
   .option('--quarantine <file>', 'write a quarantine.md proposal')
   .option('--sort <key>', 'table sort: state | disruption | fail | rescue | name', 'state')
-  .option('--limit <n>', 'show at most N table rows', (v) => Number.parseInt(v, 10))
-  .option('--min-runs <n>', 'minimum runs before classifying (default 10)', (v) => Number.parseInt(v, 10))
+  .option('--limit <n>', 'show at most N table rows', intOption(1))
+  .option('--min-runs <n>', 'minimum runs before classifying (default 10)', intOption(1))
   .option('--config <file>', 'JSON file overriding any threshold (see README)')
   .option('--quiet', 'suppress the table; print only the summary')
   .action(
@@ -49,9 +59,22 @@ program
         program.error(`no report files found for: ${inputs.join(', ')}`);
       }
 
+      // Fail fast on unusable output paths instead of after the analysis.
+      for (const out of [opts.json, opts.html, opts.quarantine]) {
+        if (out === undefined) continue;
+        const stat = await fs.stat(out).catch(() => undefined);
+        if (stat?.isDirectory() === true) {
+          program.error(`output path is a directory: ${out}`);
+        }
+      }
+
       let thresholds: Partial<Thresholds> = {};
       if (opts.config !== undefined) {
-        thresholds = JSON.parse(await fs.readFile(opts.config, 'utf8')) as Partial<Thresholds>;
+        try {
+          thresholds = validateThresholds(JSON.parse(await fs.readFile(opts.config, 'utf8')));
+        } catch (err) {
+          program.error(`invalid --config ${opts.config}: ${(err as Error).message}`);
+        }
       }
       if (opts.minRuns !== undefined) thresholds.minRuns = opts.minRuns;
 

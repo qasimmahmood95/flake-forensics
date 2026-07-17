@@ -41,16 +41,31 @@ export function recommendQuarantine(
     if (state === 'HEALTHY' || state === 'TOO_FEW_RUNS') continue;
 
     // A detected fix trumps the historical label, FAILING included: the
-    // window since the changepoint is what describes the test today.
-    if (test.recent !== undefined && test.recent.state === 'HEALTHY' && test.changepoint?.direction === 'improved') {
-      recommendations.push({
-        testId: test.testId,
-        action: 'monitor',
-        evidence:
-          `${test.classification.reason}. Improved after commit ${shortCommit(test.recent.sinceCommit)}: ` +
-          `${test.recent.reason}. No quarantine — the fix appears to have landed.`,
-      });
-      continue;
+    // window since the changepoint is what describes the test today. A
+    // clean-but-short after-window (TOO_FEW_RUNS with zero disruptions)
+    // counts too — quarantining a test that stopped failing helps nobody.
+    if (test.changepoint?.direction === 'improved' && test.recent !== undefined) {
+      const { recent } = test;
+      if (recent.state === 'HEALTHY') {
+        recommendations.push({
+          testId: test.testId,
+          action: 'monitor',
+          evidence:
+            `${test.classification.reason}. Improved since commit ${shortCommit(recent.sinceCommit)}: ` +
+            `${recent.reason}. No quarantine — the fix appears to have landed.`,
+        });
+        continue;
+      }
+      if (recent.state === 'TOO_FEW_RUNS' && recent.disruptions === 0) {
+        recommendations.push({
+          testId: test.testId,
+          action: 'monitor',
+          evidence:
+            `${test.classification.reason}. Clean since commit ${shortCommit(recent.sinceCommit)} but only ` +
+            `${recent.n} run${recent.n === 1 ? '' : 's'} since — monitor and re-run before deciding.`,
+        });
+        continue;
+      }
     }
 
     if (state === 'FAILING') {

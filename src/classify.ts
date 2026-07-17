@@ -69,6 +69,37 @@ export const DEFAULT_THRESHOLDS: Thresholds = {
   z: Z95,
 };
 
+/**
+ * Validate a user-supplied thresholds override (e.g. from `--config`).
+ * Rejects unknown keys and non-finite/non-numeric values instead of letting
+ * them silently poison every comparison (a string threshold makes all
+ * comparisons false, which would classify everything HEALTHY without a word).
+ */
+export function validateThresholds(input: unknown): Partial<Thresholds> {
+  if (input === null || input === undefined) return {};
+  if (typeof input !== 'object' || Array.isArray(input)) {
+    throw new Error('thresholds config must be a JSON object');
+  }
+  const known = new Set(Object.keys(DEFAULT_THRESHOLDS));
+  const result: Record<string, number> = {};
+  const problems: string[] = [];
+  for (const [key, value] of Object.entries(input)) {
+    if (!known.has(key)) {
+      problems.push(`unknown threshold "${key}" (known: ${[...known].join(', ')})`);
+      continue;
+    }
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+      problems.push(`threshold "${key}" must be a finite non-negative number, got ${JSON.stringify(value)}`);
+      continue;
+    }
+    result[key] = value;
+  }
+  if (problems.length > 0) {
+    throw new Error(problems.join('; '));
+  }
+  return result as Partial<Thresholds>;
+}
+
 export interface OutcomeCounts {
   /** Runs in which the test executed (skipped runs excluded). */
   n: number;
@@ -101,6 +132,11 @@ export function classify(counts: OutcomeCounts, t: Thresholds = DEFAULT_THRESHOL
   const { n, hardFails, rescues } = counts;
   const disruptions = hardFails + rescues;
 
+  // n = 0 (never executed) is unclassifiable regardless of how low the
+  // configured minRuns is — the Wilson interval is undefined at n = 0.
+  if (n === 0) {
+    return { state: 'TOO_FEW_RUNS', reason: 'never executed in the analysed runs' };
+  }
   if (n < t.minRuns) {
     return {
       state: 'TOO_FEW_RUNS',

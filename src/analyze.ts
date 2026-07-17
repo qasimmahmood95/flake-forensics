@@ -6,6 +6,7 @@ import { computeSignature } from './signature.js';
 import { buildClusters, type Cluster, type FailureEvent } from './cluster.js';
 import { detectChangepoint, type Changepoint } from './trend.js';
 import { recommendQuarantine, type QuarantineRecommendation } from './quarantine.js';
+import { compareTimestamps } from './util.js';
 
 export interface RunTimelineEntry {
   runId: string;
@@ -30,7 +31,7 @@ export interface TestReport {
    * Re-classification of the window AFTER a detected changepoint, so a
    * fixed test is not condemned by its history.
    */
-  recent?: ClassificationResult & { sinceCommit: string; n: number };
+  recent?: ClassificationResult & { sinceCommit: string; n: number; disruptions: number };
   changepoint?: Changepoint;
   clusterIds: string[];
   timeline: RunTimelineEntry[];
@@ -76,7 +77,7 @@ export interface AnalyzeOptions {
 export function analyze(runs: RunRecord[], options: AnalyzeOptions = {}): Analysis {
   const thresholds: Thresholds = { ...DEFAULT_THRESHOLDS, ...options.thresholds };
   const now = options.now ?? new Date();
-  const sortedRuns = [...runs].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+  const sortedRuns = [...runs].sort((a, b) => compareTimestamps(a.timestamp, b.timestamp));
 
   const perTest = new Map<string, PerTestData>();
   for (const run of sortedRuns) {
@@ -103,7 +104,11 @@ export function analyze(runs: RunRecord[], options: AnalyzeOptions = {}): Analys
         existing.outcome = test.outcome;
       }
 
-      const finalAttempt = test.attempts[test.attempts.length - 1];
+      // Only genuinely disruptive outcomes feed the clusters: a test whose
+      // verdict is "passed" despite failed attempts (test.fail() and other
+      // expectedStatus cases) would otherwise pollute signature clusters and
+      // the environment-wide attribution denominator.
+      if (test.outcome !== 'rescued' && test.outcome !== 'failed') continue;
       for (const attempt of test.attempts) {
         if ((attempt.status === 'failed' || attempt.status === 'timedOut') && attempt.error !== undefined) {
           data.events.push({
@@ -113,7 +118,6 @@ export function analyze(runs: RunRecord[], options: AnalyzeOptions = {}): Analys
             timestamp: run.timestamp,
             signature: computeSignature(attempt.error),
             rawMessage: attempt.error.message,
-            final: attempt === finalAttempt,
           });
         }
       }
@@ -155,6 +159,7 @@ export function analyze(runs: RunRecord[], options: AnalyzeOptions = {}): Analys
         ...classify(recentCounts, thresholds),
         sinceCommit: changepoint.commit,
         n: afterWindow.length,
+        disruptions: recentCounts.hardFails + recentCounts.rescues,
       };
     }
 

@@ -1,6 +1,15 @@
 import type { Analysis } from '../analyze.js';
 
 /**
+ * Wrap text in a markdown code span, surviving backticks in the content
+ * (a test title containing a backtick would otherwise break the span).
+ */
+function codeSpan(text: string): string {
+  if (!text.includes('`')) return `\`${text}\``;
+  return `\`\` ${text} \`\``;
+}
+
+/**
  * Renders a `quarantine.md` a team could commit directly: a proposal with
  * evidence, not a bare list of test names.
  */
@@ -35,7 +44,7 @@ export function renderQuarantineMd(analysis: Analysis): string {
     lines.push('_No tests currently meet the quarantine evidence bar._');
   } else {
     for (const q of byAction.quarantine) {
-      lines.push(`- [ ] \`${q.testId}\` — **expires ${q.expiry}**`);
+      lines.push(`- [ ] ${codeSpan(q.testId)} — **expires ${q.expiry}**`);
       lines.push(`  - ${q.evidence}`);
     }
   }
@@ -47,7 +56,7 @@ export function renderQuarantineMd(analysis: Analysis): string {
     lines.push('_No consistently failing tests._');
   } else {
     for (const q of byAction.fix) {
-      lines.push(`- [ ] \`${q.testId}\``);
+      lines.push(`- [ ] ${codeSpan(q.testId)}`);
       lines.push(`  - ${q.evidence}`);
     }
   }
@@ -59,7 +68,7 @@ export function renderQuarantineMd(analysis: Analysis): string {
     lines.push('_Nothing on the watchlist._');
   } else {
     for (const q of byAction.monitor) {
-      lines.push(`- \`${q.testId}\``);
+      lines.push(`- ${codeSpan(q.testId)}`);
       lines.push(`  - ${q.evidence}`);
     }
   }
@@ -74,8 +83,8 @@ export function renderQuarantineMd(analysis: Analysis): string {
         `- **${c.testIds.length} tests / ${c.eventCount} failures** share one error signature ` +
           `(\`${c.id}\`, ${c.firstSeen.slice(0, 10)} → ${c.lastSeen.slice(0, 10)}):`,
       );
-      lines.push(`  - \`${c.template}\``);
-      lines.push(`  - at \`${c.frame}\``);
+      lines.push(`  - ${codeSpan(c.template)}`);
+      lines.push(`  - at ${codeSpan(c.frame)}`);
       lines.push('  - Treat as one infrastructure issue, not as per-test flakiness.');
     }
   }

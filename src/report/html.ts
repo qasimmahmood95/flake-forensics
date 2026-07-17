@@ -92,9 +92,9 @@ document.getElementById("clusters").innerHTML = DATA.clusters
   .map((c) => \`<div class="cluster">
     \${c.envWide ? '<span class="envwide">ENVIRONMENT-WIDE</span> · ' : ""}
     <b>\${c.testIds.length}</b> test(s), <b>\${c.eventCount}</b> failures across \${c.runIds.length} runs
-    (\${c.firstSeen.slice(0,10)} → \${c.lastSeen.slice(0,10)})<br>
+    (\${esc(c.firstSeen.slice(0,10))} → \${esc(c.lastSeen.slice(0,10))})<br>
     <code>\${esc(c.template)}</code><br>
-    <small class="mono">at \${esc(c.frame)} · signature \${c.id}</small>
+    <small class="mono">at \${esc(c.frame)} · signature \${esc(c.id)}</small>
   </div>\`).join("") || "<p class='evidence'>No repeated failure signatures.</p>";
 
 const keyFns = {
@@ -105,11 +105,12 @@ const keyFns = {
 };
 let sortKey = "state", asc = true;
 
+// Returns HTML-escaped text (the commit is report-controlled data).
 function trendText(t) {
   if (!t.changepoint) return "—";
   const cp = t.changepoint;
   return (cp.direction === "improved" ? "↓ improved" : "↑ worsened") +
-    \` @ \${short(cp.commit)} (\${pct(cp.before.rate)}→\${pct(cp.after.rate)})\`;
+    \` @ \${esc(short(cp.commit))} (\${pct(cp.before.rate)}→\${pct(cp.after.rate)})\`;
 }
 
 function detailHtml(t) {
@@ -118,16 +119,16 @@ function detailHtml(t) {
   return \`
     <div><b>\${esc(t.testId)}</b></div>
     <div class="timeline">\${t.timeline.map((e) =>
-      \`<span class="cell \${e.outcome}" title="\${esc(e.runId)} @ \${short(e.commit)} (\${e.timestamp.slice(0,10)}): \${e.outcome}"></span>\`).join("")}
+      \`<span class="cell \${esc(e.outcome)}" title="\${esc(e.runId)} @ \${esc(short(e.commit))} (\${esc(e.timestamp.slice(0,10))}): \${esc(e.outcome)}"></span>\`).join("")}
     </div>
     <div class="evidence">timeline: one square per run, oldest first (green pass · amber rescued-by-retry · red hard fail)</div>
     <p>\${esc(t.classification.reason)}</p>
     <p>hard-fail rate \${pct(t.failRate.rate)} [\${pct(t.failRate.lower)}–\${pct(t.failRate.upper)}] ·
        retry-pass rate \${pct(t.rescueRate.rate)} [\${pct(t.rescueRate.lower)}–\${pct(t.rescueRate.upper)}] ·
        n = \${t.n}</p>
-    \${t.recent ? \`<p><b>Since \${short(t.recent.sinceCommit)}:</b> \${t.recent.state} — \${esc(t.recent.reason)}</p>\` : ""}
+    \${t.recent ? \`<p><b>Since \${esc(short(t.recent.sinceCommit))}:</b> \${esc(t.recent.state)} — \${esc(t.recent.reason)}</p>\` : ""}
     \${t.changepoint ? \`<p><b>Changepoint:</b> \${trendText(t)} (p = \${t.changepoint.pValue.toExponential(1)})</p>\` : ""}
-    \${q ? \`<p><b>Recommendation: \${q.action.toUpperCase()}\${q.expiry ? " until " + q.expiry : ""}</b><br>
+    \${q ? \`<p><b>Recommendation: \${esc(q.action.toUpperCase())}\${q.expiry ? " until " + esc(q.expiry) : ""}</b><br>
       <span class="evidence">\${esc(q.evidence)}</span></p>\` : ""}
     \${clusters.length ? "<p><b>Failure signatures:</b></p>" + clusters.map((c) =>
       \`<div class="cluster">\${c.envWide ? '<span class="envwide">ENVIRONMENT-WIDE</span> · ' : ""}

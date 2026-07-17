@@ -42,12 +42,16 @@ function globToRegExp(pattern: string): RegExp {
   return new RegExp(`^${re}$`);
 }
 
+/** Directories that never contain user CI reports; recursing into them makes
+ *  `**` patterns slow and noisy. */
+const SKIP_DIRS = new Set(['node_modules', '.git']);
+
 async function walk(dir: string, out: string[]): Promise<void> {
   const entries = await fs.readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      await walk(full, out);
+      if (!SKIP_DIRS.has(entry.name)) await walk(full, out);
     } else if (entry.isFile()) {
       out.push(full);
     }
@@ -55,7 +59,9 @@ async function walk(dir: string, out: string[]): Promise<void> {
 }
 
 async function expandGlob(pattern: string): Promise<string[]> {
-  const posixPattern = toPosix(pattern);
+  // path.join-based walk output never carries a leading "./", so strip it
+  // from the pattern too or "./reports/*.json" would match nothing.
+  const posixPattern = toPosix(pattern).replace(/^(\.\/)+/, '');
   const firstMagic = posixPattern.search(MAGIC_RE);
   const lastSlashBeforeMagic = posixPattern.lastIndexOf('/', firstMagic);
   const base = lastSlashBeforeMagic >= 0 ? posixPattern.slice(0, lastSlashBeforeMagic) : '.';

@@ -116,6 +116,102 @@ describe('loadRuns', () => {
     expect(warnings.some((w) => w.includes('not a Playwright JSON report'))).toBe(true);
   });
 
+  it('skips a file whose entire content is null, without aborting the batch', async () => {
+    const nullFile = path.join(dir, 'null.json');
+    const goodFile = path.join(dir, 'good-next-to-null.json');
+    await writeFile(nullFile, 'null');
+    await writeFile(goodFile, JSON.stringify(report({})));
+    const { runs, warnings } = await loadRuns([nullFile, goodFile]);
+    expect(runs).toHaveLength(1);
+    expect(warnings.some((w) => w.includes('null.json'))).toBe(true);
+  });
+
+  it('survives hostile structure: null suites, non-array results, junk elements', async () => {
+    const file = path.join(dir, 'hostile.json');
+    await writeFile(
+      file,
+      JSON.stringify({
+        suites: [
+          null,
+          42,
+          { title: 'x.spec.ts', file: 'x.spec.ts', specs: [null, { title: 't', tests: [{ results: { not: 'array' } }, null] }] },
+        ],
+      }),
+    );
+    const { runs } = await loadRuns([file]);
+    expect(runs).toHaveLength(1);
+    expect(runs[0]?.tests).toHaveLength(1); // the one salvageable test, as skipped
+    expect(runs[0]?.tests[0]?.outcome).toBe('skipped');
+  });
+
+  it('ignores non-string error messages instead of crashing later', async () => {
+    const file = path.join(dir, 'badmsg.json');
+    await writeFile(
+      file,
+      JSON.stringify(
+        report({
+          status: 'unexpected',
+          results: [{ status: 'failed', retry: 0, error: { message: 42, stack: ['not', 'a', 'string'] } }],
+        }),
+      ),
+    );
+    const { runs } = await loadRuns([file]);
+    const test = runs[0]?.tests[0];
+    expect(test?.outcome).toBe('failed');
+    expect(test?.attempts[0]?.error).toBeUndefined();
+  });
+
+  it('caps suite recursion depth instead of overflowing the stack', async () => {
+    let nested: object = { title: 'deep.spec.ts', specs: [] };
+    for (let i = 0; i < 5000; i++) nested = { title: 's', suites: [nested] };
+    const file = path.join(dir, 'deep.json');
+    await writeFile(file, JSON.stringify({ suites: [nested] }));
+    const { runs } = await loadRuns([file]);
+    expect(runs).toHaveLength(1); // parsed, no crash, nothing salvaged below the cap
+  });
+
+  it('maps interrupted (cancelled run) to skipped, not failed', async () => {
+    const file = path.join(dir, 'interrupted.json');
+    await writeFile(
+      file,
+      JSON.stringify(report({ status: null, results: [{ status: 'interrupted', retry: 0 }] })),
+    );
+    const { runs } = await loadRuns([file]);
+    expect(runs[0]?.tests[0]?.outcome).toBe('skipped');
+  });
+
+  it('merges reports sharing a runId (sharded artifacts) into one run', async () => {
+    const shard1 = path.join(dir, 'shard1.json');
+    const shard2 = path.join(dir, 'shard2.json');
+    const meta = { commit: 'abc123', ciRunId: 'gha-777', timestamp: '2026-05-01T03:00:00.000Z' };
+    await writeFile(shard1, JSON.stringify(report({ metadata: meta })));
+    await writeFile(shard2, JSON.stringify(report({ metadata: meta })));
+    const { runs } = await loadRuns([shard1, shard2]);
+    expect(runs).toHaveLength(1);
+    expect(runs[0]?.tests).toHaveLength(2); // same test from both shards, deduped later by analyze
+  });
+
+  it('strips control characters from titles (terminal escape injection)', async () => {
+    const esc = String.fromCharCode(0x1b);
+    const file = path.join(dir, 'ansi.json');
+    const raw = JSON.parse(JSON.stringify(report({}))) as {
+      suites: Array<{ suites: Array<{ specs: Array<{ title: string }> }> }>;
+    };
+    raw.suites[0]!.suites[0]!.specs[0]!.title = `evil${esc}[2Jtitle`;
+    await writeFile(file, JSON.stringify(raw));
+    const { runs } = await loadRuns([file]);
+    expect(runs[0]?.tests[0]?.testId).not.toContain(esc);
+  });
+
+  it('accepts reports with a UTF-8 BOM', async () => {
+    const file = path.join(dir, 'bom.json');
+    const bom = String.fromCharCode(0xfeff);
+    await writeFile(file, `${bom}${JSON.stringify(report({}))}`);
+    const { runs, warnings } = await loadRuns([file]);
+    expect(runs).toHaveLength(1);
+    expect(warnings).toHaveLength(0);
+  });
+
   it('sorts runs by timestamp', async () => {
     const early = path.join(dir, 'f1.json');
     const late = path.join(dir, 'f2.json');

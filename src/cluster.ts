@@ -1,4 +1,5 @@
 import type { Signature } from './signature.js';
+import { compareTimestamps } from './util.js';
 
 /** One failed attempt with an error, anywhere in the ingested data. */
 export interface FailureEvent {
@@ -8,8 +9,6 @@ export interface FailureEvent {
   timestamp: string;
   signature: Signature;
   rawMessage: string;
-  /** True when this attempt was the final one (the run hard-failed). */
-  final: boolean;
 }
 
 export interface Cluster {
@@ -48,7 +47,7 @@ export function buildClusters(events: FailureEvent[], envWideMinTests: number): 
     if (first === undefined) continue;
     const testIds = [...new Set(group.map((e) => e.testId))].sort();
     const runIds = [...new Set(group.map((e) => e.runId))];
-    const timestamps = group.map((e) => e.timestamp).sort();
+    const timestamps = group.map((e) => e.timestamp).sort(compareTimestamps);
     clusters.push({
       id: first.signature.id,
       template: first.signature.template,

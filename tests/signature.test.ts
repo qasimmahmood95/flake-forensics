@@ -70,6 +70,19 @@ describe('normalizeErrorMessage', () => {
     expect(msg).not.toContain('/home/runner');
   });
 
+  it('does not let the path rule swallow prose around slashes', () => {
+    // Regression: a segment class that allowed spaces ate everything between
+    // two slashes, merging distinct error messages into one template.
+    const a = normalizeErrorMessage('Error: GET /api/users returned 500');
+    const b = normalizeErrorMessage('Error: GET /api/orders timed out');
+    expect(a).not.toBe(b);
+    expect(a).toContain('returned <N>');
+    expect(b).toContain('timed out');
+    expect(normalizeErrorMessage('expected 3/4 items and 5/6 widgets')).toBe(
+      'expected <N>/<N> items and <N>/<N> widgets',
+    );
+  });
+
   it('handles an empty message', () => {
     expect(normalizeErrorMessage('')).toBe('<empty-message>');
   });

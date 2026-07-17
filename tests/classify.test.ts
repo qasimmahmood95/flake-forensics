@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { classify, DEFAULT_THRESHOLDS } from '../src/classify.js';
+import { classify, validateThresholds, DEFAULT_THRESHOLDS } from '../src/classify.js';
 
 describe('classify — state machine', () => {
   it('refuses to classify below minRuns, whatever the failure pattern', () => {
@@ -69,5 +69,41 @@ describe('classify — state machine', () => {
   it('respects a custom flaky bar', () => {
     const strict = { ...DEFAULT_THRESHOLDS, flakyMinLower: 0.15 };
     expect(classify({ n: 50, hardFails: 0, rescues: 6 }, strict).state).toBe('HEALTHY');
+  });
+
+  it('never divides by zero: n = 0 is TOO_FEW_RUNS even with minRuns 0', () => {
+    const t = { ...DEFAULT_THRESHOLDS, minRuns: 0 };
+    const result = classify({ n: 0, hardFails: 0, rescues: 0 }, t);
+    expect(result.state).toBe('TOO_FEW_RUNS');
+    expect(result.reason).toContain('never executed');
+  });
+});
+
+describe('validateThresholds', () => {
+  it('accepts a valid partial override', () => {
+    expect(validateThresholds({ minRuns: 20, flakyMinLower: 0.05 })).toEqual({
+      minRuns: 20,
+      flakyMinLower: 0.05,
+    });
+  });
+
+  it('accepts null/undefined as empty', () => {
+    expect(validateThresholds(null)).toEqual({});
+    expect(validateThresholds(undefined)).toEqual({});
+  });
+
+  it('rejects string-typed values instead of silently classifying everything HEALTHY', () => {
+    expect(() => validateThresholds({ minRuns: 'ten' })).toThrow(/finite non-negative number/);
+    expect(() => validateThresholds({ z: null })).toThrow(/finite non-negative number/);
+    expect(() => validateThresholds({ flakyMinLower: Number.NaN })).toThrow(/finite/);
+  });
+
+  it('rejects unknown keys (catches typos)', () => {
+    expect(() => validateThresholds({ minRunz: 10 })).toThrow(/unknown threshold "minRunz"/);
+  });
+
+  it('rejects non-object config', () => {
+    expect(() => validateThresholds([1, 2])).toThrow(/JSON object/);
+    expect(() => validateThresholds('minRuns=10')).toThrow(/JSON object/);
   });
 });

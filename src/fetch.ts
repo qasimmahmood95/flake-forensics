@@ -64,14 +64,23 @@ export async function fetchArtifacts(options: FetchOptions): Promise<{ reportsWr
   const log = options.log ?? (() => undefined);
   await fs.mkdir(outDir, { recursive: true });
 
-  const runsUrl = `${API}/repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/runs?status=completed&per_page=${limit}`;
-  const { workflow_runs: runs } = await ghJson<{ workflow_runs: GhWorkflowRun[] }>(runsUrl, token);
+  // GitHub caps per_page at 100, so page until `limit` runs are collected.
+  const runs: GhWorkflowRun[] = [];
+  for (let page = 1; runs.length < limit; page++) {
+    const perPage = Math.min(100, limit - runs.length);
+    const runsUrl =
+      `${API}/repos/${repo}/actions/workflows/${encodeURIComponent(workflow)}/runs` +
+      `?status=completed&per_page=${perPage}&page=${page}`;
+    const { workflow_runs: batch } = await ghJson<{ workflow_runs: GhWorkflowRun[] }>(runsUrl, token);
+    runs.push(...batch);
+    if (batch.length < perPage) break;
+  }
   log(`Found ${runs.length} completed runs for ${repo} / ${workflow}`);
 
   let reportsWritten = 0;
   for (const run of runs) {
     const { artifacts } = await ghJson<{ artifacts: GhArtifact[] }>(
-      `${API}/repos/${repo}/actions/runs/${run.id}/artifacts`,
+      `${API}/repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,
       token,
     );
     const match = artifacts.find((a) => a.name === artifact && !a.expired);
@@ -92,7 +101,10 @@ export async function fetchArtifacts(options: FetchOptions): Promise<{ reportsWr
 
     for (const [name, bytes] of Object.entries(entries)) {
       if (!name.endsWith('.json') || name.endsWith('.meta.json')) continue;
-      const base = `run-${run.id}-${path.basename(name)}`;
+      // Keep the entry's full (sanitised) path in the filename: two shards
+      // both containing "report.json" must not overwrite each other.
+      const flattened = name.replace(/[\\/]+/g, '-').replace(/[^\w.-]/g, '_');
+      const base = `run-${run.id}-${flattened}`;
       const reportPath = path.join(outDir, base);
       await fs.writeFile(reportPath, bytes);
       const meta = {

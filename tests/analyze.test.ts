@@ -109,7 +109,41 @@ describe('analyze', () => {
     expect(test?.recent?.state).toBe('HEALTHY');
     const rec = analysis.quarantine.find((q) => q.testId === 'fixed');
     expect(rec?.action).toBe('monitor');
-    expect(rec?.evidence).toContain('Improved after commit');
+    expect(rec?.evidence).toContain('Improved since commit');
+  });
+
+  it('monitors (not quarantines) a test that is clean since the fix but with a short window', () => {
+    // 23 failing runs, then 7 clean: changepoint improved, but the after
+    // window is below minRuns — still must not quarantine.
+    const runs = makeRuns(
+      Array.from({ length: 30 }, (_, i) => ({ justFixed: (i < 23 ? 'failed' : 'passed') as FinalOutcome })),
+    );
+    const analysis = analyze(runs);
+    const test = analysis.tests.find((t) => t.testId === 'justFixed');
+    expect(test?.changepoint?.direction).toBe('improved');
+    expect(test?.recent?.state).toBe('TOO_FEW_RUNS');
+    const rec = analysis.quarantine.find((q) => q.testId === 'justFixed');
+    expect(rec?.action).toBe('monitor');
+    expect(rec?.evidence).toContain('Clean since commit');
+  });
+
+  it('does not feed expected failures (test.fail() attempts) into clusters', () => {
+    // Outcome "passed" despite failed attempts — Playwright's `expected`
+    // verdict for test.fail(). Events from these must not create clusters.
+    const runs = makeRuns(Array.from({ length: 12 }, () => ({ t: 'passed' as FinalOutcome })));
+    for (const run of runs) {
+      const test = run.tests[0]!;
+      test.attempts = [
+        {
+          status: 'failed',
+          retry: 0,
+          error: { message: 'Error: boom', stack: 'Error: boom\n    at f (/repo/tests/a.ts:1:1)' },
+        },
+      ];
+    }
+    const analysis = analyze(runs);
+    expect(analysis.clusters).toHaveLength(0);
+    expect(analysis.tests[0]?.classification.state).toBe('HEALTHY');
   });
 
   it('attributes env-wide failures instead of quarantining each test', () => {

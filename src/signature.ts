@@ -38,8 +38,10 @@ const TOKEN_RULES: ReadonlyArray<readonly [RegExp, string]> = [
   // 5. ip:port and localhost:port
   [/\b(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?\b/g, '<ADDR>'],
   [/\blocalhost:\d+\b/g, '<ADDR>'],
-  // 6. Multi-segment filesystem paths (posix or Windows, 2+ separators)
-  [/(?:[A-Za-z]:)?(?:[\\/][\w.@ -]+){2,}/g, '<PATH>'],
+  // 6. Multi-segment filesystem paths (posix or Windows, 2+ separators).
+  //    No spaces inside segments: with spaces allowed, prose like
+  //    "GET /api/users returned 500" would be swallowed whole.
+  [/(?:[A-Za-z]:)?(?:[\\/][\w.@-]+){2,}/g, '<PATH>'],
   // 7. Durations: 15000ms, 1.5s, 30s
   [/\b\d+(?:\.\d+)?\s*(?:ms|s)\b/g, '<DURATION>'],
   // 8. Any remaining number

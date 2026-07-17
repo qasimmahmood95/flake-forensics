@@ -1,9 +1,14 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import type { Attempt, FinalOutcome, RunRecord, TestOccurrence } from './types.js';
+import { compareTimestamps } from './util.js';
 
 /**
  * Ingestion of Playwright JSON reports (`--reporter=json`).
+ *
+ * Hostile-input contract: a malformed report file NEVER aborts the batch —
+ * it is skipped with a warning. Every array/object/string coming from a
+ * report is type-checked before use, and suite recursion is depth-capped.
  *
  * Run metadata (commit, timestamp, CI run id) is resolved in this order:
  *   1. a sidecar file `<report>.meta.json` next to the report
@@ -13,50 +18,59 @@ import type { Attempt, FinalOutcome, RunRecord, TestOccurrence } from './types.j
  *   3. `stats.startTime` for the timestamp
  *   4. file mtime for the timestamp, file basename for the run id
  *      (a warning is emitted — trend analysis is only as good as the ordering)
+ *
+ * Reports that share a runId (e.g. per-shard JSON files inside one CI run's
+ * artifact) are merged into a single run so n counts CI runs, not files.
  */
 
 interface PwError {
-  message?: string;
-  stack?: string;
+  message?: unknown;
+  stack?: unknown;
 }
 
 interface PwResult {
-  status?: string;
-  retry?: number;
+  status?: unknown;
+  retry?: unknown;
   error?: PwError;
-  errors?: PwError[];
-  startTime?: string;
+  errors?: unknown;
+  startTime?: unknown;
 }
 
 interface PwTest {
-  projectName?: string;
-  status?: string;
-  expectedStatus?: string;
-  results?: PwResult[];
+  projectName?: unknown;
+  status?: unknown;
+  results?: unknown;
 }
 
 interface PwSpec {
-  title?: string;
-  file?: string;
-  tests?: PwTest[];
+  title?: unknown;
+  file?: unknown;
+  tests?: unknown;
 }
 
 interface PwSuite {
-  title?: string;
-  file?: string;
-  suites?: PwSuite[];
-  specs?: PwSpec[];
+  title?: unknown;
+  file?: unknown;
+  suites?: unknown;
+  specs?: unknown;
 }
 
 interface PwReport {
   config?: { metadata?: Record<string, unknown> };
-  suites?: PwSuite[];
-  stats?: { startTime?: string };
+  suites?: unknown;
+  stats?: { startTime?: unknown };
 }
 
 export interface IngestResult {
   runs: RunRecord[];
   warnings: string[];
+}
+
+/** Guards against stack overflow on absurdly (or maliciously) nested suites. */
+const MAX_SUITE_DEPTH = 100;
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function asString(value: unknown): string | undefined {
@@ -71,18 +85,30 @@ function firstString(...values: unknown[]): string | undefined {
   return undefined;
 }
 
-function attemptsFromResults(results: PwResult[]): Attempt[] {
-  return [...results]
-    .sort((a, b) => (a.retry ?? 0) - (b.retry ?? 0))
+/**
+ * Remove ASCII control characters (including ESC) from report-supplied text
+ * so hostile titles cannot inject terminal escape sequences into CLI output.
+ */
+function sanitizeText(value: string): string {
+  return value.replace(/[\x00-\x1f\x7f]/g, ' ').trim();
+}
+
+function attemptsFromResults(results: unknown): Attempt[] {
+  if (!Array.isArray(results)) return [];
+  return results
+    .filter(isObject)
+    .map((r) => r as PwResult)
+    .sort((a, b) => (typeof a.retry === 'number' ? a.retry : 0) - (typeof b.retry === 'number' ? b.retry : 0))
     .map((r) => {
-      const rawError = r.error ?? r.errors?.[0];
+      const errorsArray = Array.isArray(r.errors) ? r.errors.filter(isObject) : [];
+      const rawError = isObject(r.error) ? r.error : (errorsArray[0] as PwError | undefined);
       const attempt: Attempt = {
-        status: r.status ?? 'unknown',
-        retry: r.retry ?? 0,
+        status: typeof r.status === 'string' ? r.status : 'unknown',
+        retry: typeof r.retry === 'number' ? r.retry : 0,
       };
-      if (rawError?.message !== undefined) {
+      if (rawError !== undefined && typeof rawError.message === 'string') {
         attempt.error = { message: rawError.message };
-        if (rawError.stack !== undefined) {
+        if (typeof rawError.stack === 'string') {
           attempt.error.stack = rawError.stack;
         }
       }
@@ -100,7 +126,8 @@ function outcomeFromAttempts(attempts: Attempt[]): FinalOutcome {
     );
     return earlierFailure ? 'rescued' : 'passed';
   }
-  if (final.status === 'skipped') return 'skipped';
+  // `interrupted` means the run was cancelled, not that the test failed.
+  if (final.status === 'skipped' || final.status === 'interrupted') return 'skipped';
   return 'failed';
 }
 
@@ -125,28 +152,39 @@ function outcomeFromTest(test: PwTest, attempts: Attempt[]): FinalOutcome {
 }
 
 function collectTests(
-  suite: PwSuite,
+  suiteRaw: unknown,
   titles: string[],
   fileHint: string | undefined,
+  depth: number,
   out: TestOccurrence[],
 ): void {
-  const file = suite.file ?? fileHint;
+  if (!isObject(suiteRaw) || depth > MAX_SUITE_DEPTH) return;
+  const suite = suiteRaw as PwSuite;
+  const file = asString(suite.file) ?? fileHint;
   // Playwright's root suites are titled with the file path; skip those
   // titles so test ids do not repeat the file name.
-  const ownTitle = suite.title;
+  const ownTitle = asString(suite.title);
   const nextTitles =
-    ownTitle !== undefined && ownTitle.length > 0 && ownTitle !== file
-      ? [...titles, ownTitle]
-      : titles;
+    ownTitle !== undefined && ownTitle !== file ? [...titles, sanitizeText(ownTitle)] : titles;
 
-  for (const spec of suite.specs ?? []) {
-    const specFile = spec.file ?? file ?? '<unknown-file>';
-    for (const test of spec.tests ?? []) {
-      const attempts = attemptsFromResults(test.results ?? []);
-      const title = [...nextTitles, spec.title ?? '<untitled>'].join(' › ');
+  const specs = Array.isArray(suite.specs) ? suite.specs : [];
+  for (const specRaw of specs) {
+    if (!isObject(specRaw)) continue;
+    const spec = specRaw as PwSpec;
+    const specFile = asString(spec.file) ?? file ?? '<unknown-file>';
+    const tests = Array.isArray(spec.tests) ? spec.tests : [];
+    for (const testRaw of tests) {
+      if (!isObject(testRaw)) continue;
+      const test = testRaw as PwTest;
+      const attempts = attemptsFromResults(test.results);
+      const title = sanitizeText(
+        [...nextTitles, asString(spec.title) ?? '<untitled>'].join(' › '),
+      );
       const project = asString(test.projectName);
       out.push({
-        testId: `${project !== undefined ? `[${project}] ` : ''}${specFile} › ${title}`,
+        testId: sanitizeText(
+          `${project !== undefined ? `[${project}] ` : ''}${specFile} › ${title}`,
+        ),
         file: specFile,
         title,
         outcome: outcomeFromTest(test, attempts),
@@ -154,22 +192,24 @@ function collectTests(
       });
     }
   }
-  for (const child of suite.suites ?? []) {
-    collectTests(child, nextTitles, file, out);
+  const children = Array.isArray(suite.suites) ? suite.suites : [];
+  for (const child of children) {
+    collectTests(child, nextTitles, file, depth + 1, out);
   }
 }
 
 interface SidecarMeta {
-  commit?: string;
-  timestamp?: string;
-  runId?: string;
+  commit?: unknown;
+  timestamp?: unknown;
+  runId?: unknown;
 }
 
 async function readSidecar(reportFile: string): Promise<SidecarMeta | undefined> {
   const sidecarPath = reportFile.replace(/\.json$/, '.meta.json');
   try {
     const raw = await fs.readFile(sidecarPath, 'utf8');
-    return JSON.parse(raw) as SidecarMeta;
+    const parsed: unknown = JSON.parse(raw);
+    return isObject(parsed) ? (parsed as SidecarMeta) : undefined;
   } catch {
     return undefined;
   }
@@ -179,56 +219,86 @@ export async function loadRun(
   reportFile: string,
   warnings: string[],
 ): Promise<RunRecord | undefined> {
-  let report: PwReport;
   try {
-    report = JSON.parse(await fs.readFile(reportFile, 'utf8')) as PwReport;
+    const raw = await fs.readFile(reportFile, 'utf8');
+    // Windows tooling often prepends a UTF-8 BOM, which JSON.parse rejects.
+    const parsed: unknown = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
+    if (!isObject(parsed)) {
+      warnings.push(`${reportFile}: not a JSON object — not a Playwright JSON report; skipped`);
+      return undefined;
+    }
+    const report = parsed as PwReport;
+    if (!Array.isArray(report.suites)) {
+      warnings.push(`${reportFile}: no "suites" array — not a Playwright JSON report; skipped`);
+      return undefined;
+    }
+
+    const sidecar = await readSidecar(reportFile);
+    const md = isObject(report.config?.metadata) ? report.config.metadata : {};
+    const ci = isObject(md['ci']) ? md['ci'] : {};
+
+    const commit = firstString(sidecar?.commit, md['commit'], md['gitCommit'], ci['commit'], ci['commitHash']);
+    let timestamp = firstString(sidecar?.timestamp, md['timestamp'], report.stats?.startTime);
+    const runId = firstString(sidecar?.runId, md['ciRunId'], md['runId'], ci['runId']);
+
+    if (timestamp === undefined) {
+      const stat = await fs.stat(reportFile);
+      timestamp = stat.mtime.toISOString();
+      warnings.push(`${reportFile}: no timestamp in metadata; falling back to file mtime (trend ordering may be wrong)`);
+    }
+    if (commit === undefined) {
+      warnings.push(`${reportFile}: no commit in metadata; changepoints for this run cannot name a commit`);
+    }
+
+    const tests: TestOccurrence[] = [];
+    for (const suite of report.suites) {
+      collectTests(suite, [], undefined, 0, tests);
+    }
+
+    return {
+      runId: runId ?? path.basename(reportFile, '.json'),
+      commit: commit !== undefined ? sanitizeText(commit) : 'unknown',
+      timestamp,
+      sourceFile: reportFile,
+      tests,
+    };
   } catch (err) {
-    warnings.push(`${reportFile}: unreadable or invalid JSON (${(err as Error).message})`);
+    warnings.push(`${reportFile}: unreadable or malformed report (${(err as Error).message}); skipped`);
     return undefined;
   }
-  if (!Array.isArray(report.suites)) {
-    warnings.push(`${reportFile}: no "suites" array — not a Playwright JSON report; skipped`);
-    return undefined;
-  }
-
-  const sidecar = await readSidecar(reportFile);
-  const md = report.config?.metadata ?? {};
-  const ci = (md['ci'] ?? {}) as Record<string, unknown>;
-
-  const commit = firstString(sidecar?.commit, md['commit'], md['gitCommit'], ci['commit'], ci['commitHash']);
-  let timestamp = firstString(sidecar?.timestamp, md['timestamp'], report.stats?.startTime);
-  const runId = firstString(sidecar?.runId, md['ciRunId'], md['runId'], ci['runId']);
-
-  if (timestamp === undefined) {
-    const stat = await fs.stat(reportFile);
-    timestamp = stat.mtime.toISOString();
-    warnings.push(`${reportFile}: no timestamp in metadata; falling back to file mtime (trend ordering may be wrong)`);
-  }
-  if (commit === undefined) {
-    warnings.push(`${reportFile}: no commit in metadata; changepoints for this run cannot name a commit`);
-  }
-
-  const tests: TestOccurrence[] = [];
-  for (const suite of report.suites) {
-    collectTests(suite, [], undefined, tests);
-  }
-
-  return {
-    runId: runId ?? path.basename(reportFile, '.json'),
-    commit: commit ?? 'unknown',
-    timestamp,
-    sourceFile: reportFile,
-    tests,
-  };
 }
 
 export async function loadRuns(reportFiles: string[]): Promise<IngestResult> {
   const warnings: string[] = [];
-  const runs: RunRecord[] = [];
+  const loaded: RunRecord[] = [];
   for (const file of reportFiles) {
     const run = await loadRun(file, warnings);
-    if (run !== undefined) runs.push(run);
+    if (run !== undefined) loaded.push(run);
   }
-  runs.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+
+  // Merge reports that belong to the same CI run (same runId), e.g. one
+  // JSON file per shard inside a single artifact. Without this, n would
+  // count files instead of runs.
+  const byRunId = new Map<string, RunRecord>();
+  for (const run of loaded) {
+    const existing = byRunId.get(run.runId);
+    if (existing === undefined) {
+      byRunId.set(run.runId, run);
+      continue;
+    }
+    existing.tests.push(...run.tests);
+    if (compareTimestamps(run.timestamp, existing.timestamp) < 0) {
+      existing.timestamp = run.timestamp;
+    }
+    if (existing.commit === 'unknown') {
+      existing.commit = run.commit;
+    } else if (run.commit !== 'unknown' && run.commit !== existing.commit) {
+      warnings.push(
+        `run ${run.runId}: reports disagree on commit (${existing.commit} vs ${run.commit}); keeping ${existing.commit}`,
+      );
+    }
+  }
+
+  const runs = [...byRunId.values()].sort((a, b) => compareTimestamps(a.timestamp, b.timestamp));
   return { runs, warnings };
 }
