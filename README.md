@@ -1,5 +1,8 @@
 # flake-forensics
 
+[![ci](https://github.com/qasimmahmood95/flake-forensics/actions/workflows/ci.yml/badge.svg)](https://github.com/qasimmahmood95/flake-forensics/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Statistically honest flake analysis for [Playwright](https://playwright.dev) JSON reports across many CI runs.
 
 Point it at a directory of Playwright JSON reports (one per CI run) and it tells you — with sample
