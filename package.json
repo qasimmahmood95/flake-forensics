@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Statistically honest flake analysis for Playwright JSON reports across CI runs",
   "license": "MIT",
-  "author": "Qasim",
+  "author": "Qasim Mahmood",
   "type": "module",
   "bin": {
     "flake-forensics": "dist/index.js"
